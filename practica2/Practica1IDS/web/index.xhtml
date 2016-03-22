@@ -11,6 +11,7 @@
             <h2>Acceso al sistema</h2>
             <p><h:inputText pt:placeholder="Correo" value="#{login.correo}"/></p>
             <p><h:inputSecret pt:placeholder="Contraseña" value="#{login.contrasenia}"/></p>
+            <p><h:link value="Registro" outcome="registro"/></p>
             <h:commandButton value="Iniciar sesión" action="#{login.login()}"/>
         </h:form>
     </h:body>
