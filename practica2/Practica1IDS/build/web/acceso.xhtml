@@ -9,7 +9,7 @@
       <h2>Perfil</h2>
       <p><h:outputLabel value="Correo: "/><h:outputText value="#{login.correo}" style="font-weight:bold"/></p>
         <h:form>
-            <h:commandButton value="Cerrar sesión"/>
+            <h:commandButton value="Cerrar sesión" action="#{logout.cerrarSesion()}"/>
         </h:form>
   </h:body>
 </html>
