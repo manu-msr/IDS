@@ -1,10 +1,12 @@
 package beans;
 
+import controlador.UsuariosDAO;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import tablas.Usuario;
 
 /**
  *
@@ -26,7 +28,7 @@ public class Registro {
     private final FacesContext faceContext;
     /* Permite el envio de mensajes entre el bean y la vista. */
     private FacesMessage message;
-    
+    private static int ids = 0;
     /**
      * Constructor.
      */
@@ -40,13 +42,24 @@ public class Registro {
      * @return Dirección a la pantalla de login.
      */
     public String registrar() {
-        if (correo.equals(confirmacion))
-            return "index";
-        else {
+        if (!correo.equals(confirmacion)) {
+            Usuario us = new Usuario();
+            try {
+                us.setIdUsuario(ids++);
+                us.setCorreoUsuario(getCorreo());
+                us.setContraseniaUsuario(getContrasenia());
+                UsuariosDAO usuarioDAO = new UsuariosDAO();
+                usuarioDAO.guardaUsuario(us);
+                return "index";
+            } catch (Exception e) {
+                message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al guardar los datos", null);
+            }
+        } else {
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Las contraseñas no coinciden", null);
             faceContext.addMessage(null, message);
             return "registro";
         }
+        return "index";
     }
 
     public String getCorreo() {
