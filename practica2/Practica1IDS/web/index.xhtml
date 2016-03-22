@@ -1,11 +1,17 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Inicio de sesión</title>
     </h:head>
     <h:body>
-        Hello from Facelets
+        <h:form class="formulario">
+            <h2>Acceso al sistema</h2>
+            <p><h:inputText pt:placeholder="Correo" value=""/></p>
+            <p><h:inputSecret pt:placeholder="Contraseña" value=""/></p>
+            <h:commandButton value="Iniciar sesión"/>
+        </h:form>
     </h:body>
 </html>
