@@ -9,9 +9,9 @@
     <h:body>
         <h:form class="formulario">
             <h2>Acceso al sistema</h2>
-            <p><h:inputText pt:placeholder="Correo" value=""/></p>
-            <p><h:inputSecret pt:placeholder="Contraseña" value=""/></p>
-            <h:commandButton value="Iniciar sesión"/>
+            <p><h:inputText pt:placeholder="Correo" value="#{login.correo}"/></p>
+            <p><h:inputSecret pt:placeholder="Contraseña" value="#{login.contrasenia}"/></p>
+            <h:commandButton value="Iniciar sesión" action="#{login.login()}"/>
         </h:form>
     </h:body>
 </html>
