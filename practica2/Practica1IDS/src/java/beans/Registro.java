@@ -1,11 +1,14 @@
 package beans;
 
-import controlador.UsuariosDAO;
+//import controlador.UsuariosDAO;
+import controlador.ManejaUsuarios;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import tablas.Usuario;
 
 /**
@@ -42,14 +45,12 @@ public class Registro {
      * @return Dirección a la pantalla de login.
      */
     public String registrar() {
-        if (!correo.equals(confirmacion)) {
+        if (contrasenia.equals(confirmacion)) {
             Usuario us = new Usuario();
             try {
-                us.setIdUsuario(ids++);
-                us.setCorreoUsuario(getCorreo());
-                us.setContraseniaUsuario(getContrasenia());
-                UsuariosDAO usuarioDAO = new UsuariosDAO();
-                usuarioDAO.guardaUsuario(us);
+                ManejaUsuarios.factory = new Configuration().configure().buildSessionFactory();
+                ManejaUsuarios mu = new ManejaUsuarios();
+                Integer id = mu.aregaUsuario(ids++, getCorreo(), getContrasenia());
                 return "index";
             } catch (Exception e) {
                 message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al guardar los datos", null);
