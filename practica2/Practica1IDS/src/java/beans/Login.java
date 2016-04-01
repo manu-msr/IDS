@@ -5,12 +5,13 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import controlador.LoginHelper;
 
 /**
  *
  * @author manu
  */
-@ManagedBean // LEER LA DOCUMENTACIÖN DE ESTA ANOTACIÓN: Permite dar de alta al bean en la aplicación
+@ManagedBean
 @RequestScoped
 public class Login {
     
@@ -24,6 +25,7 @@ public class Login {
     private final FacesContext faceContext;
     /* Permite el envio de mensajes entre el bean y la vista. */
     private FacesMessage message;
+    private LoginHelper helper;
     
     /**
      * Constructor para inicializar los valores de faceContext y 
@@ -32,6 +34,7 @@ public class Login {
     public Login() {
         faceContext = FacesContext.getCurrentInstance();
         httpServletRequest = (HttpServletRequest)faceContext.getExternalContext().getRequest();
+        helper = new LoginHelper();
     }
     
     /**
@@ -39,16 +42,20 @@ public class Login {
      * @return Nombre de la vista a responder.
      */
     public String login() {
-        if (correo.equals("alguien@correo.com") && contrasenia.equals("1729")) {
-            httpServletRequest.getSession().setAttribute("sessionUsuario", correo);
-            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Acceso Correcto", null);
-            faceContext.addMessage(null, message);
-            return "acceso";
-        } else {
-            message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario o contraseña incorrecto", null);
-            faceContext.addMessage(null, message);
-            return "index";
+        modelo.Usuario usuario = helper.getUsuarioPorCorreo(correo);
+        if (usuario != null) {
+            if (contrasenia.equals(usuario.getContraseniaUsuario())) {
+                httpServletRequest.getSession().setAttribute("sessionUsuario", correo);
+                message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Acceso Correcto", null);
+                faceContext.addMessage(null, message);
+                return "acceso";
+            } else {
+                message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario o contraseña incorrecto", null);
+                faceContext.addMessage(null, message);
+                return "index";
+            }
         }
+        return "index";
     }
     
     /**

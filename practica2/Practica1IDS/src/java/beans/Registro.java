@@ -1,7 +1,8 @@
 package beans;
 
 //import controlador.UsuariosDAO;
-import controlador.ManejaUsuarios;
+//import controlador.ManejaUsuarios;
+import controlador.LoginHelper;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -9,7 +10,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import tablas.Usuario;
+import modelo.Usuario;
 
 /**
  *
@@ -32,12 +33,14 @@ public class Registro {
     /* Permite el envio de mensajes entre el bean y la vista. */
     private FacesMessage message;
     private static int ids = 0;
+    private LoginHelper helper;
     /**
      * Constructor.
      */
     public Registro() {
         faceContext = FacesContext.getCurrentInstance();
         httpServletRequest = (HttpServletRequest)faceContext.getExternalContext().getRequest();
+        helper = new LoginHelper();
     }
     
     /**
@@ -48,9 +51,7 @@ public class Registro {
         if (contrasenia.equals(confirmacion)) {
             Usuario us = new Usuario();
             try {
-                ManejaUsuarios.factory = new Configuration().configure().buildSessionFactory();
-                ManejaUsuarios mu = new ManejaUsuarios();
-                Integer id = mu.aregaUsuario(ids++, getCorreo(), getContrasenia());
+                helper.registraUsuario(ids++, correo, contrasenia);
                 return "index";
             } catch (Exception e) {
                 message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al guardar los datos", null);

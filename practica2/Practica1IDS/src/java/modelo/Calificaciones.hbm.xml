@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 7/03/2016 08:24:28 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class name="modelo.Calificaciones" optimistic-lock="version" schema="public" table="calificaciones">
+    <id name="idUsuario" type="int">
+      <column name="id_usuario"/>
+      <generator class="assigned"/>
+    </id>
+    <property name="promedio" type="java.lang.Double">
+      <column name="promedio" precision="17" scale="17"/>
+    </property>
+  </class>
+</hibernate-mapping>
